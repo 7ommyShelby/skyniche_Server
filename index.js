@@ -9,15 +9,15 @@ const path = require('path');
 const savepath = path.join(__dirname, "..", "files")
 const cloudinary = require('cloudinary').v2
 require("dotenv").config()
-  
+
 const port = process.env.PORT;
 app.use(cors());
 app.use(express.json());
-app.use('/files', express.static(savepath));
+// app.use('/files', express.static(savepath));
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '/files')
+        cb(null, '/uploads')
     },
 
     filename: function (req, file, cb) {
