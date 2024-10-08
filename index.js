@@ -17,7 +17,7 @@ app.use('/files', express.static(savepath));
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, savepath)
+        cb(null, '/files')
     },
 
     filename: function (req, file, cb) {
