@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
-mongoose.connect("mongodb://localhost:27017/skye")
+mongoose.connect(process.env.MONGO_URL)
     .then(() => {
         console.log("Server connected to database");
     })
