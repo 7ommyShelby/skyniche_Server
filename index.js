@@ -2,38 +2,39 @@ const express = require('express')
 const app = express();
 const mongoose = require('mongoose')
 const userRouter = require('./routes/user')
+
 const cors = require('cors')
-const { register, updateUser } = require('./controller/user')
+const { register, updateUser } = require('./controller/user');
 const multer = require('multer')
 const path = require('path');
 const cloudinary = require('cloudinary').v2
-const { CloudinaryStorage } = require('multer-storage-cloudinary')
+// const { CloudinaryStorage } = require('multer-storage-cloudinary')
 require("dotenv").config()
 
 const port = process.env.PORT;
-// const savepath = path.join(__dirname, "files")
+const savepath = path.join(__dirname, "files")
 app.use(cors());
 app.use(express.json());
-// app.use('/files', express.static(savepath));
+app.use('/files', express.static(savepath));
 
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'uploads/')
-//     },
-
-//     filename: function (req, file, cb) {
-//         cb(null, file.originalname)
-//     }
-// })
-
-const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-        folder: 'uploads',  
-        format: async (req, file) => 'png jpg jpeg' ,
-        public_id: (req, file) => file.originalname.split('.')[0], 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/')
     },
-});
+
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+
+// const storage = new CloudinaryStorage({
+//     cloudinary: cloudinary,
+//     params: {
+//         folder: 'uploads',  
+//         format: async (req, file) => 'png jpg jpeg' ,
+//         public_id: (req, file) => file.originalname.split('.')[0], 
+//     },
+// });
 
 const upload = multer({ storage: storage })
 
