@@ -46,6 +46,7 @@ const updateUser = async (req, res) => {
 
         const { firstName, lastName, email, department, designation, doj, salary, } = req.body;
 
+        console.log(req.file);
         let path = req.file && req.file.path
 
         const user = await usermodel.findOne({ email: email });
