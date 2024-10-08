@@ -10,7 +10,7 @@ const savepath = path.join(__dirname, "..", "files")
 const cloudinary = require('cloudinary').v2
 require("dotenv").config()
   
-const port = 8000;
+const port = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 app.use('/files', express.static(savepath));
