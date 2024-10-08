@@ -15,11 +15,11 @@ const port = process.env.PORT;
 const savepath = path.join(__dirname, "files")
 app.use(cors());
 app.use(express.json());
-app.use('/files', express.static(savepath));
+// app.use('/files', express.static(savepath));
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/')
+        cb(null, path.join(__dirname, "uploads"))
     },
 
     filename: function (req, file, cb) {
