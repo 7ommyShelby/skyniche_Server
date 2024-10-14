@@ -93,6 +93,8 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
 
     const { email } = req.body
+    console.log(req.body);
+    
     const user = await usermodel.findOneAndDelete({ email: email })
 
     if (!user) {
