@@ -118,7 +118,7 @@ const searchUsers = async (req, res) => {
 
     const { searchquery } = req.body;
 
-    // console.log(req.body, "reqbody");
+    console.log(req.body.searchquery, "reqbody");
 
     try {
         if (!searchquery) {
