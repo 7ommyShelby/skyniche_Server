@@ -2,7 +2,6 @@ const express = require('express')
 const app = express();
 const mongoose = require('mongoose')
 const userRouter = require('./routes/user')
-
 const cors = require('cors')
 const { register, updateUser } = require('./controller/user');
 const multer = require('multer')
@@ -30,9 +29,9 @@ app.use(express.json());
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: 'uploads',  
-        format: async (req, file) => 'png jpg jpeg' ,
-        public_id: (req, file) => file.originalname.split('.')[0], 
+        folder: 'uploads',
+        format: async (req, file) => 'png jpg jpeg',
+        public_id: (req, file) => file.originalname.split('.')[0],
     },
 });
 
@@ -45,7 +44,6 @@ mongoose.connect(process.env.MONGO_URL)
     .catch((error) => {
         console.log("Could not connect to database Something went wrong!", error);
     })
-
 
 app.post('/api/user/adduser', upload.single('picture'), register)
 app.patch('/api/user/updateuser', upload.single('picture'), updateUser)
