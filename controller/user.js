@@ -118,6 +118,8 @@ const searchUsers = async (req, res) => {
 
     const { searchquery } = req.body;
 
+    // console.log(req.body, "reqbody");
+
     try {
         if (!searchquery) {
             return res.json({
@@ -127,13 +129,15 @@ const searchUsers = async (req, res) => {
 
         const query = {
             $or: [
-                { firstName: { $regex: new RegExp(searchQuery, 'i') } },
-                { lastName: { $regex: new RegExp(searchQuery, 'i') } },
-                { department: { $regex: new RegExp(searchQuery, 'i') } },
-                { designation: { $regex: new RegExp(searchQuery, 'i') } },
-                { email: { $regex: new RegExp(searchQuery, 'i') } }
+                { firstName: { $regex: new RegExp(searchquery, 'i') } },
+                { lastName: { $regex: new RegExp(searchquery, 'i') } },
+                { department: { $regex: new RegExp(searchquery, 'i') } },
+                { designation: { $regex: new RegExp(searchquery, 'i') } },
+                { email: { $regex: new RegExp(searchquery, 'i') } }
             ]
         };
+
+        // console.log(query);
 
         const users = await usermodel.find(query);
 
@@ -150,10 +154,10 @@ const searchUsers = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({
-            message: "Something went wrong at searching users",
+            message: "Something went wrong at searching users", error,
             success: false
         })
-        console.log("Something went wrong at searching users");
+        console.log("Something went wrong at searching users", error);
     }
 
 
