@@ -116,37 +116,44 @@ const getAllUsers = async (req, res) => {
 
 const searchUsers = async (req, res) => {
 
-    const { firstName, lastName, department, designation, doj } = req.body;
+    const { searchquery } = req.body;
 
-    if (firstName) {
-        const result = await usermodel.find({ firstName: firstName });
+    try {
+        if (!searchquery) {
+            return res.json({
+                message: "No search query provided!"
+            })
+        }
+
+        const query = {
+            $or: [
+                { firstName: { $regex: new RegExp(searchQuery, 'i') } },
+                { lastName: { $regex: new RegExp(searchQuery, 'i') } },
+                { department: { $regex: new RegExp(searchQuery, 'i') } },
+                { designation: { $regex: new RegExp(searchQuery, 'i') } },
+                { email: { $regex: new RegExp(searchQuery, 'i') } }
+            ]
+        };
+
+        const users = await usermodel.find(query);
+
+        if (!users || users.length === 0) {
+            return res.json({
+                message: "No users found"
+            })
+        }
+
         res.json({
-            data: result
+            message: "Users fetched",
+            data: users
         })
-    }
-    else if (lastName) {
-        const result = await usermodel.find({ lastName: lastName });
-        res.json({
-            data: result
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Something went wrong at searching users",
+            success: false
         })
-    }
-    else if (department) {
-        const result = await usermodel.find({ department: department });
-        res.json({
-            data: result
-        })
-    }
-    else if (designation) {
-        const result = await usermodel.find({ designation: designation });
-        res.json({
-            data: result
-        })
-    }
-    else if (doj) {
-        const result = await usermodel.find({ doj: doj });
-        res.json({
-            data: result
-        })
+        console.log("Something went wrong at searching users");
     }
 
 
