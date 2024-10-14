@@ -5,7 +5,7 @@ const userRouter = require('./routes/user')
 const cors = require('cors')
 const { register, updateUser } = require('./controller/user');
 const multer = require('multer')
-const path = require('path');
+// const path = require('path');
 const cloudinary = require('cloudinary').v2
 const { CloudinaryStorage } = require('multer-storage-cloudinary')
 require("dotenv").config()
@@ -26,16 +26,16 @@ app.use(express.json());
 //     }
 // })
 
-const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-        folder: 'uploads',
-        format: async (req, file) => 'png jpg jpeg',
-        public_id: (req, file) => file.originalname.split('.')[0],
-    },
-});
+// const storage = new CloudinaryStorage({
+//     cloudinary: cloudinary,
+//     params: {
+//         folder: 'uploads',
+//         format: async (req, file) => 'png jpg jpeg',
+//         public_id: (req, file) => file.originalname.split('.')[0],
+//     },
+// });
 
-const upload = multer({ storage: storage })
+const upload = multer({ storage: multer.diskStorage({}) })
 
 mongoose.connect(process.env.MONGO_URL)
     .then(() => {
